@@ -1,0 +1,32 @@
+---
+import { projects } from "../data/site";
+---
+
+<section id="projects" class="section bg-white">
+  <div class="container">
+    <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+      <div>
+        <p class="eyebrow">Кейсы</p>
+        <h2 class="display-heading mt-3 text-5xl leading-none text-[var(--main-color)] lg:text-6xl">Решаем нестандартные задачи</h2>
+      </div>
+      <a class="btn btn-primary" href="#contacts">Смотреть еще проекты</a>
+    </div>
+
+    <div class="mt-10 grid gap-5 lg:grid-cols-3">
+      {
+        projects.map((project) => (
+          <article class="group overflow-hidden rounded-[1.5rem] bg-[var(--light-color)]">
+            <div class="aspect-[1.25] overflow-hidden">
+              <img class="size-full object-cover transition duration-700 group-hover:scale-[1.04]" src={project.image} alt={project.title} loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="text-2xl font-black text-[var(--main-color)]">{project.title}</h3>
+              <p class="mt-3 min-h-20 leading-7 text-[var(--muted-color)]">{project.text}</p>
+              <a class="mt-5 inline-flex text-sm font-black text-[var(--primary-color)]" href="#contacts">Читать кейс</a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

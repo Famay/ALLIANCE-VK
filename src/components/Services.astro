@@ -1,0 +1,40 @@
+---
+import { services } from "../data/site";
+---
+
+<section id="services" class="section bg-white">
+  <div class="container">
+    <div class="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+      <div>
+        <p class="eyebrow">ALLIANCE VK</p>
+        <h2 class="display-heading mt-3 max-w-3xl text-5xl leading-[1.04] text-[var(--main-color)] lg:text-6xl">
+          Создаем интерьер с яркой индивидуальностью
+        </h2>
+      </div>
+      <div class="text-lg leading-8 text-[var(--muted-color)]">
+        <p>
+          Разрабатываем комплексные решения для дома: мебель, хранение, рабочие зоны, материалы и монтаж. Проект собирается под планировку, привычки семьи и бюджет.
+        </p>
+        <p class="mt-4">
+          Гибкая комплектация помогает начать с кухни или шкафа, а позже собрать весь интерьер в едином стиле.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      {
+        services.map((service) => (
+          <article class="group relative min-h-[440px] overflow-hidden rounded-[1.6rem] bg-[var(--light-color)]">
+            <img class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-[1.04]" src={service.image} alt={service.title} loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 p-6 text-white">
+              <h3 class="display-heading text-4xl leading-none">{service.title}</h3>
+              <p class="mt-4 max-w-sm leading-7 text-white/76">{service.text}</p>
+              <a class="mt-5 inline-flex rounded-full bg-white/18 px-4 py-2 text-sm font-black hover:bg-white/25" href="#contacts">Заказать проект</a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

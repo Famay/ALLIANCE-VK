@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Services from "../components/Services.astro";
+import Popular from "../components/Popular.astro";
+import Advantages from "../components/Advantages.astro";
+import Promos from "../components/Promos.astro";
+import Projects from "../components/Projects.astro";
+import Process from "../components/Process.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+import Chatbot from "../components/Chatbot.astro";
+
+const title = "ALLIANCE VK - мебель на заказ";
+const description = "Проектирование, производство и монтаж кухонь, шкафов, гардеробных и корпусной мебели под размер.";
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <main>
+    <Hero />
+    <Services />
+    <Popular />
+    <Advantages />
+    <Promos />
+    <Projects />
+    <Process />
+    <Contact />
+  </main>
+  <Footer />
+  <Chatbot />
+</BaseLayout>

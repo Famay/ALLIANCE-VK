@@ -1,0 +1,613 @@
+---
+import { site } from "../data/site";
+---
+
+<div class="chat-widget" id="chatWidget">
+  <button class="chat-toggle" id="chatToggle" aria-label="Открыть чат">
+    <svg class="icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" fill="currentColor"/>
+    </svg>
+    <svg class="icon-close hidden" width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="chat-dot"></span>
+  </button>
+
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-avatar">A</div>
+      <div class="chat-header-info">
+        <p class="chat-header-name">{site.name}</p>
+        <p class="chat-header-status">
+          <span class="chat-online-dot"></span>Онлайн
+        </p>
+      </div>
+      <button class="chat-header-close" id="chatClose" aria-label="Закрыть чат">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="chat-input-wrap" id="chatInputWrap" style="display:none">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Введите ответ…" autocomplete="off" />
+      <button class="chat-send" id="chatSend" aria-label="Отправить">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ vkUrl: site.vk, phone: site.phone }}>
+  const flow = {
+    start: {
+      message: "Привет! 👋 Помогу с выбором мебели и отвечу на вопросы.",
+      buttons: [
+        { text: "Узнать цены", state: "prices" },
+        { text: "Записаться на замер", state: "collect_name" },
+        { text: "Частые вопросы", state: "faq" },
+        { text: "Написать в ВК", url: vkUrl },
+      ],
+    },
+
+    prices: {
+      message: "Какая мебель вас интересует?",
+      buttons: [
+        { text: "🍳 Кухни", state: "price_kitchen" },
+        { text: "🚪 Шкафы и купе", state: "price_wardrobe" },
+        { text: "👗 Гардеробные", state: "price_dressing" },
+        { text: "🏠 Прихожие", state: "price_hallway" },
+        { text: "← Назад", state: "start" },
+      ],
+    },
+
+    price_kitchen: {
+      message: "Кухни на заказ — от 45 000 ₽. Точная стоимость зависит от размеров, формы и материалов фасадов. Лучший способ узнать цену — бесплатный замер.",
+      buttons: [
+        { text: "Записаться на замер", state: "collect_name" },
+        { text: "← Другая мебель", state: "prices" },
+      ],
+    },
+
+    price_wardrobe: {
+      message: "Шкафы на заказ — от 18 000 ₽. Купе, распашные, встроенные — любой формат точно в ваш проём.",
+      buttons: [
+        { text: "Записаться на замер", state: "collect_name" },
+        { text: "← Другая мебель", state: "prices" },
+      ],
+    },
+
+    price_dressing: {
+      message: "Гардеробные комнаты — от 35 000 ₽. Проектируем под любую площадь и наполнение.",
+      buttons: [
+        { text: "Записаться на замер", state: "collect_name" },
+        { text: "← Другая мебель", state: "prices" },
+      ],
+    },
+
+    price_hallway: {
+      message: "Прихожие на заказ — от 20 000 ₽. Делаем даже под очень узкие коридоры.",
+      buttons: [
+        { text: "Записаться на замер", state: "collect_name" },
+        { text: "← Другая мебель", state: "prices" },
+      ],
+    },
+
+    faq: {
+      message: "Выберите вопрос:",
+      buttons: [
+        { text: "Сколько делается мебель?", state: "faq_time" },
+        { text: "Есть ли гарантия?", state: "faq_warranty" },
+        { text: "Замер платный?", state: "faq_measure" },
+        { text: "Работаете по области?", state: "faq_area" },
+        { text: "← В начало", state: "start" },
+      ],
+    },
+
+    faq_time: {
+      message: "Обычно 14–21 день после подписания договора. Срок зависит от сложности проекта и фиксируется в договоре.",
+      buttons: [
+        { text: "Ещё вопрос", state: "faq" },
+        { text: "Записаться на замер", state: "collect_name" },
+      ],
+    },
+
+    faq_warranty: {
+      message: "Да! Даём гарантию 1 год на всю мебель и монтажные работы.",
+      buttons: [
+        { text: "Ещё вопрос", state: "faq" },
+        { text: "Записаться на замер", state: "collect_name" },
+      ],
+    },
+
+    faq_measure: {
+      message: "Замер абсолютно бесплатный — для Новосибирска и области.",
+      buttons: [
+        { text: "Ещё вопрос", state: "faq" },
+        { text: "Записаться на замер", state: "collect_name" },
+      ],
+    },
+
+    faq_area: {
+      message: "Да, работаем по всему Новосибирску и Новосибирской области. Стоимость доставки за пределы города обсуждается индивидуально.",
+      buttons: [
+        { text: "Ещё вопрос", state: "faq" },
+        { text: "Записаться на замер", state: "collect_name" },
+      ],
+    },
+
+    collect_name: {
+      message: "Отлично! Как вас зовут?",
+      input: true,
+      inputPlaceholder: "Ваше имя",
+      next: "collect_phone",
+    },
+
+    collect_phone: {
+      message: (d) => `Приятно, ${d.name}! Укажите номер телефона — перезвоним в удобное время:`,
+      input: true,
+      inputType: "tel",
+      inputPlaceholder: "+7 000 000-00-00",
+      next: "done",
+    },
+
+    done: {
+      message: (d) =>
+        `Спасибо, ${d.name}! Заявка принята. Свяжемся с вами по номеру ${d.phone} в ближайшее время и договоримся о замере.`,
+      buttons: [
+        { text: "Написать в ВК", url: vkUrl },
+        { text: "← В начало", state: "start" },
+      ],
+    },
+  };
+
+  const userData = {};
+  let currentState = "start";
+  let waitingInput = false;
+
+  const widget = document.getElementById("chatWidget");
+  const toggle = document.getElementById("chatToggle");
+  const chatWindow = document.getElementById("chatWindow");
+  const messages = document.getElementById("chatMessages");
+  const inputWrap = document.getElementById("chatInputWrap");
+  const input = document.getElementById("chatInput");
+  const sendBtn = document.getElementById("chatSend");
+  const closeBtn = document.getElementById("chatClose");
+  const iconChat = toggle.querySelector(".icon-chat");
+  const iconClose = toggle.querySelector(".icon-close");
+
+  let isOpen = false;
+
+  function openChat() {
+    isOpen = true;
+    chatWindow.classList.add("open");
+    iconChat.classList.add("hidden");
+    iconClose.classList.remove("hidden");
+    if (messages.childElementCount === 0) {
+      setTimeout(() => goTo("start"), 300);
+    }
+  }
+
+  function closeChat() {
+    isOpen = false;
+    chatWindow.classList.remove("open");
+    iconChat.classList.remove("hidden");
+    iconClose.classList.add("hidden");
+  }
+
+  toggle.addEventListener("click", () => (isOpen ? closeChat() : openChat()));
+  closeBtn.addEventListener("click", closeChat);
+
+  function addBotMessage(text) {
+    const wrap = document.createElement("div");
+    wrap.className = "msg msg-bot";
+    wrap.innerHTML = `<div class="msg-bubble">${text}</div>`;
+    messages.appendChild(wrap);
+    scrollBottom();
+  }
+
+  function addUserMessage(text) {
+    const wrap = document.createElement("div");
+    wrap.className = "msg msg-user";
+    wrap.innerHTML = `<div class="msg-bubble">${text}</div>`;
+    messages.appendChild(wrap);
+    scrollBottom();
+  }
+
+  function addButtons(buttons) {
+    const wrap = document.createElement("div");
+    wrap.className = "msg-buttons";
+    buttons.forEach((btn) => {
+      const b = document.createElement("button");
+      b.className = "msg-btn";
+      b.textContent = btn.text;
+      b.addEventListener("click", () => {
+        wrap.remove();
+        addUserMessage(btn.text);
+        if (btn.url) {
+          window.open(btn.url, "_blank");
+          showTyping();
+          setTimeout(() => {
+            removeTyping();
+            addBotMessage("Написали нам — ответим в ближайшее время! 👍");
+            addButtons([{ text: "← В начало", state: "start" }]);
+          }, 700);
+        } else if (btn.state) {
+          setTimeout(() => goTo(btn.state), 400);
+        }
+      });
+      wrap.appendChild(b);
+    });
+    messages.appendChild(wrap);
+    scrollBottom();
+  }
+
+  function showInput(placeholder, type = "text") {
+    waitingInput = true;
+    input.placeholder = placeholder || "Введите ответ…";
+    input.type = type;
+    input.value = "";
+    inputWrap.style.display = "flex";
+    input.focus();
+  }
+
+  function hideInput() {
+    waitingInput = false;
+    inputWrap.style.display = "none";
+    input.value = "";
+  }
+
+  function goTo(stateId) {
+    currentState = stateId;
+    const state = flow[stateId];
+    if (!state) return;
+
+    const msg = typeof state.message === "function" ? state.message(userData) : state.message;
+
+    showTyping();
+    setTimeout(() => {
+      removeTyping();
+      addBotMessage(msg);
+      if (state.buttons) addButtons(state.buttons);
+      if (state.input) showInput(state.inputPlaceholder, state.inputType);
+    }, 600);
+  }
+
+  function showTyping() {
+    const t = document.createElement("div");
+    t.className = "msg msg-bot typing-indicator";
+    t.id = "typingIndicator";
+    t.innerHTML = `<div class="msg-bubble"><span></span><span></span><span></span></div>`;
+    messages.appendChild(t);
+    scrollBottom();
+  }
+
+  function removeTyping() {
+    document.getElementById("typingIndicator")?.remove();
+  }
+
+  function handleInput() {
+    const val = input.value.trim();
+    if (!val) return;
+    hideInput();
+    addUserMessage(val);
+
+    const state = flow[currentState];
+    if (currentState === "collect_name") {
+      userData.name = val;
+    } else if (currentState === "collect_phone") {
+      userData.phone = val;
+    }
+
+    setTimeout(() => goTo(state.next), 400);
+  }
+
+  sendBtn.addEventListener("click", handleInput);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") handleInput();
+  });
+
+  function scrollBottom() {
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  // Open after 8 sec if user hasn't interacted
+  setTimeout(() => {
+    if (!isOpen) openChat();
+  }, 8000);
+</script>
+
+<style is:global>
+  .chat-widget {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    font-family: inherit;
+  }
+
+  .chat-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #c9362c;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 28px rgba(201, 54, 44, 0.45);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    position: relative;
+  }
+
+  .chat-toggle:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 36px rgba(201, 54, 44, 0.55);
+  }
+
+  .chat-dot {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 12px;
+    height: 12px;
+    background: #22c55e;
+    border: 2px solid #fff;
+    border-radius: 50%;
+  }
+
+  .chat-window {
+    position: absolute;
+    bottom: 76px;
+    right: 0;
+    width: 360px;
+    max-height: 540px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(31, 36, 33, 0.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+    pointer-events: none;
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+
+  .chat-window.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+  }
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #1f2421;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .chat-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #c9362c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .chat-header-info {
+    flex: 1;
+  }
+
+  .chat-header-name {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .chat-header-status {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.65);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 2px 0 0;
+  }
+
+  .chat-online-dot {
+    width: 7px;
+    height: 7px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .chat-header-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    transition: color 160ms;
+  }
+
+  .chat-header-close:hover {
+    color: #fff;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #f7f4f1;
+    scroll-behavior: smooth;
+  }
+
+  .chat-messages::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb {
+    background: #ded4c8;
+    border-radius: 2px;
+  }
+
+  .msg {
+    display: flex;
+  }
+
+  .msg-bot {
+    justify-content: flex-start;
+  }
+
+  .msg-user {
+    justify-content: flex-end;
+  }
+
+  .msg-bubble {
+    max-width: 82%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .msg-bot .msg-bubble {
+    background: #fff;
+    color: #1f2421;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .msg-user .msg-bubble {
+    background: #c9362c;
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 2px 0 4px;
+  }
+
+  .msg-btn {
+    background: #fff;
+    border: 1.5px solid #ded4c8;
+    color: #1f2421;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 160ms, color 160ms, background 160ms;
+    font-family: inherit;
+  }
+
+  .msg-btn:hover {
+    border-color: #c9362c;
+    color: #c9362c;
+    background: #fff5f4;
+  }
+
+  /* Typing indicator */
+  .typing-indicator .msg-bubble {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 12px 16px;
+  }
+
+  .typing-indicator span {
+    display: block;
+    width: 7px;
+    height: 7px;
+    background: #ded4c8;
+    border-radius: 50%;
+    animation: typing 1.2s infinite;
+  }
+
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  .chat-input-wrap {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid #ede8e3;
+    background: #fff;
+    flex-shrink: 0;
+  }
+
+  .chat-input {
+    flex: 1;
+    border: 1.5px solid #ded4c8;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 160ms;
+    font-family: inherit;
+  }
+
+  .chat-input:focus {
+    border-color: #c9362c;
+  }
+
+  .chat-send {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #c9362c;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 160ms;
+  }
+
+  .chat-send:hover {
+    background: #b52f27;
+  }
+
+  @media (max-width: 480px) {
+    .chat-widget {
+      bottom: 16px;
+      right: 16px;
+    }
+
+    .chat-window {
+      width: calc(100vw - 32px);
+      right: -16px;
+    }
+  }
+</style>

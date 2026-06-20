@@ -1,0 +1,35 @@
+---
+import { catalogLinks, quickCategories } from "../data/site";
+---
+
+<section class="section bg-[var(--light-color)]">
+  <div class="container grid gap-8 lg:grid-cols-[0.82fr_1.18fr]">
+    <div>
+      <p class="eyebrow">Каталог</p>
+      <h2 class="display-heading mt-3 text-5xl leading-none text-[var(--main-color)] lg:text-6xl">Подберите решение под комнату</h2>
+      <p class="mt-5 text-lg leading-8 text-[var(--muted-color)]">
+        Разделы можно расширить в отдельные страницы для SEO: кухни по цветам, планировкам, материалам и типам помещений.
+      </p>
+    </div>
+
+    <div class="grid gap-5">
+      <div class="grid gap-4 md:grid-cols-3">
+        {
+          quickCategories.slice(0, 3).map((item) => (
+            <a class="group relative min-h-64 overflow-hidden rounded-[1.4rem] text-white no-underline" href={item.href}>
+              <img class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-[1.04]" src={item.image} alt={item.title} loading="lazy" />
+              <span class="absolute inset-0 bg-gradient-to-t from-black/70 to-black/5"></span>
+              <span class="absolute bottom-5 left-5 text-2xl font-black">{item.title}</span>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="rounded-[1.4rem] bg-white p-6">
+        <div class="grid gap-3 sm:grid-cols-2">
+          {catalogLinks.map((item) => <a class="border-b border-[var(--border-color)] py-3 text-lg font-semibold text-[var(--main-color)] hover:text-[var(--primary-color)]" href="#contacts">{item}</a>)}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

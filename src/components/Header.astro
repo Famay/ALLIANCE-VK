@@ -1,0 +1,40 @@
+---
+import { navigation, site, topLinks } from "../data/site";
+---
+
+<header class="fixed inset-x-0 top-0 z-40 px-3 pt-3 lg:px-5">
+  <div class="glass-shell mx-auto max-w-[1880px] overflow-hidden">
+    <div class="hidden border-b border-white/25 px-5 py-2 text-xs font-medium text-white/80 lg:flex lg:items-center lg:justify-between">
+      <nav class="flex items-center gap-5">
+        {topLinks.map((item) => <a class="hover:text-white" href="#contacts">{item}</a>)}
+      </nav>
+      <div class="flex items-center gap-5">
+        <a class="hover:text-white" href={site.vk}>ВКонтакте</a>
+        <span>{site.city}</span>
+      </div>
+    </div>
+
+    <div class="flex min-h-16 items-center justify-between gap-4 px-4 py-3 lg:px-5">
+      <a class="flex items-center gap-3 text-white no-underline" href="/">
+        <span class="grid size-10 place-items-center rounded-xl bg-[var(--primary-color)] text-lg font-black">A</span>
+        <span>
+          <span class="block text-base font-black leading-tight">{site.name}</span>
+          <span class="block text-xs font-medium text-white/70">мебель на заказ</span>
+        </span>
+      </a>
+
+      <nav class="hidden items-center gap-6 text-sm font-bold text-white/88 xl:flex">
+        {navigation.map((item) => <a class="hover:text-white" href={item.href}>{item.title}</a>)}
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a class="hidden text-right text-sm font-black text-white md:block" href={`tel:${site.phone}`}>
+          {site.phone}
+          <span class="block text-xs font-medium text-white/65">ежедневно 9:00-20:00</span>
+        </a>
+        <a class="btn btn-glass-red hidden sm:inline-flex" href="#contacts">Заказать проект</a>
+        <a class="btn btn-glass-red px-4 sm:hidden" href="#contacts">Заявка</a>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,63 @@
+---
+import { quickCategories, site } from "../data/site";
+---
+
+<section id="contacts" class="section bg-[#efe7dc]">
+  <div class="container grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+    <div>
+      <p class="eyebrow">Расчет проекта</p>
+      <h2 class="mt-3 text-4xl font-black text-[#1f2421]">Получите ориентир по цене и срокам</h2>
+      <p class="mt-4 text-lg leading-8 text-[#6b625c]">
+        Оставьте контакты и коротко опишите задачу. Для точного расчета можно будет отправить фото, размеры или план помещения.
+      </p>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-lg bg-white p-5">
+          <p class="text-sm font-bold text-[#85786f]">Телефон</p>
+          <a class="mt-2 block text-xl font-black text-[#1f2421] no-underline hover:text-[#c9362c]" href={`tel:${site.phone}`}>{site.phone}</a>
+        </div>
+        <div class="rounded-lg bg-white p-5">
+          <p class="text-sm font-bold text-[#85786f]">Сообщения</p>
+          <a class="mt-2 block text-xl font-black text-[#1f2421] no-underline hover:text-[#c9362c]" href={site.messenger}>Написать сейчас</a>
+        </div>
+      </div>
+    </div>
+
+    <form class="rounded-lg bg-white p-5 shadow-[0_18px_60px_rgba(31,36,33,0.1)]" action="#" method="post">
+      <div class="grid gap-4 md:grid-cols-2">
+        <label class="grid gap-2 text-sm font-bold text-[#2d2b29]">
+          Имя
+          <input class="min-h-12 rounded-lg border border-[#ded4c8] bg-white px-4 outline-none focus:border-[#c9362c]" name="name" placeholder="Как к вам обращаться" />
+        </label>
+        <label class="grid gap-2 text-sm font-bold text-[#2d2b29]">
+          Телефон
+          <input class="min-h-12 rounded-lg border border-[#ded4c8] bg-white px-4 outline-none focus:border-[#c9362c]" name="phone" placeholder="+7" />
+        </label>
+      </div>
+
+      <div class="mt-5">
+        <p class="text-sm font-bold text-[#2d2b29]">Что нужно сделать</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {
+            quickCategories.map((item) => (
+              <label class="cursor-pointer rounded-lg border border-[#ded4c8] px-3 py-2 text-sm font-bold text-[#5b5148] has-[:checked]:border-[#c9362c] has-[:checked]:bg-[#fff2ef] has-[:checked]:text-[#c9362c]">
+                <input class="sr-only" type="checkbox" name="category" value={item.title} />
+                {item.title}
+              </label>
+            ))
+          }
+        </div>
+      </div>
+
+      <label class="mt-5 grid gap-2 text-sm font-bold text-[#2d2b29]">
+        Комментарий
+        <textarea class="min-h-32 rounded-lg border border-[#ded4c8] bg-white p-4 outline-none focus:border-[#c9362c]" name="message" placeholder="Размеры, примерный бюджет, материалы, сроки"></textarea>
+      </label>
+
+      <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <button class="btn btn-primary" type="submit">Отправить заявку</button>
+        <p class="text-xs leading-5 text-[#85786f]">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+      </div>
+    </form>
+  </div>
+</section>
