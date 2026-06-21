@@ -44,7 +44,7 @@ import { popularModels } from "../data/site";
     let moved = false;
 
     slider.addEventListener('mousedown', (e) => {
-      if (e.button !== 2) return;
+      if (e.button !== 0) return;
       isDown = true;
       moved = false;
       startX = e.pageX - slider.offsetLeft;
@@ -53,7 +53,7 @@ import { popularModels } from "../data/site";
     });
 
     document.addEventListener('mouseup', (e) => {
-      if (e.button !== 2) return;
+      if (e.button !== 0) return;
       isDown = false;
       slider.style.cursor = '';
     });
@@ -66,8 +66,8 @@ import { popularModels } from "../data/site";
       slider.scrollLeft = scrollLeft - (x - startX) * 1.2;
     });
 
-    slider.addEventListener('contextmenu', (e) => {
+    slider.addEventListener('click', (e) => {
       if (moved) e.preventDefault();
-    });
+    }, true);
   }
 </script>
