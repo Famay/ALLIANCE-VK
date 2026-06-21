@@ -12,7 +12,7 @@ import { popularModels } from "../data/site";
       <a class="btn btn-primary" href="#contacts">Получить консультацию</a>
     </div>
 
-    <div data-drag-scroll class="mt-10 flex gap-5 overflow-x-auto pb-4 select-none cursor-grab active:cursor-grabbing">
+    <div data-drag-scroll class="mt-10 flex gap-5 overflow-x-auto pb-4 select-none">
       {
         popularModels.map((model) => (
           <article class="min-w-[310px] overflow-hidden rounded-[1.4rem] bg-white md:min-w-[390px]">
@@ -44,14 +44,18 @@ import { popularModels } from "../data/site";
     let moved = false;
 
     slider.addEventListener('mousedown', (e) => {
+      if (e.button !== 2) return;
       isDown = true;
       moved = false;
       startX = e.pageX - slider.offsetLeft;
       scrollLeft = slider.scrollLeft;
+      slider.style.cursor = 'grabbing';
     });
 
-    document.addEventListener('mouseup', () => {
+    document.addEventListener('mouseup', (e) => {
+      if (e.button !== 2) return;
       isDown = false;
+      slider.style.cursor = '';
     });
 
     slider.addEventListener('mousemove', (e) => {
@@ -62,8 +66,8 @@ import { popularModels } from "../data/site";
       slider.scrollLeft = scrollLeft - (x - startX) * 1.2;
     });
 
-    slider.addEventListener('click', (e) => {
+    slider.addEventListener('contextmenu', (e) => {
       if (moved) e.preventDefault();
-    }, true);
+    });
   }
 </script>
