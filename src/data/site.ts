@@ -20,11 +20,11 @@ export const navigation = [
 ];
 
 export const quickCategories = [
-  { title: "Кухни", href: "#services", image: "/reference/kitchens1.jpg" },
-  { title: "Шкафы", href: "#services", image: "/reference/closets3.jpg" },
-  { title: "Гардеробные", href: "#services", image: "/reference/jazz3.jpg" },
-  { title: "Прихожие", href: "#services", image: "/reference/mix2.jpg" },
-  { title: "Гостиные", href: "#services", image: "/reference/sofas1.jpg" },
+  { title: "Кухни", href: "#services", image: "/furniture/kitchen-01.jpg" },
+  { title: "Шкафы", href: "#services", image: "/furniture/wardrobe-01.jpg" },
+  { title: "Гардеробные", href: "#services", image: "/furniture/dressing-01.jpg" },
+  { title: "Прихожие", href: "#services", image: "/furniture/hallway-01.jpg" },
+  { title: "Гостиные", href: "#services", image: "/furniture/living-01.jpg" },
 ];
 
 export const accessoryLinks = [
@@ -46,22 +46,22 @@ export const services = [
   {
     title: "Кухни на заказ",
     text: "Прямые, угловые, П-образные — любая планировка под ваше пространство и образ жизни.",
-    image: "/reference/kitchens1.jpg",
+    image: "/furniture/kitchen-07.jpg",
   },
   {
     title: "Шкафы и гардеробные",
     text: "Встроенные шкафы, купе и гардеробные комнаты точно по вашим размерам и потребностям.",
-    image: "/reference/closets3.jpg",
+    image: "/furniture/wardrobe-03.jpg",
   },
   {
     title: "Прихожие",
     text: "Функциональные прихожие с системами хранения, зеркалами и обувными полками.",
-    image: "/reference/mix2.jpg",
+    image: "/furniture/hallway-01.jpg",
   },
   {
     title: "Мебель для дома",
     text: "Гостиные, спальни, рабочие зоны и комплексные решения для всей квартиры.",
-    image: "/reference/sofas1.jpg",
+    image: "/furniture/living-01.jpg",
   },
 ];
 
@@ -69,38 +69,38 @@ export const popularModels = [
   {
     title: "Кухня угловая",
     type: "Готовая работа",
-    subtitle: "Светлая угловая кухня с фасадами МДФ и столешницей под камень",
-    image: "/reference/kitchens1.jpg",
+    subtitle: "Угловая кухня бежевый матовый фасад, столешница под серый мрамор",
+    image: "/furniture/kitchen-05.jpg",
   },
   {
     title: "Шкаф-купе",
     type: "Готовая работа",
     subtitle: "Встроенный шкаф-купе с зеркальными дверями и внутренней организацией",
-    image: "/reference/closets3.jpg",
+    image: "/furniture/wardrobe-03.jpg",
   },
   {
     title: "Гардеробная",
     type: "Готовая работа",
     subtitle: "Гардеробная комната с открытыми секциями, ящиками и подсветкой",
-    image: "/reference/jazz3.jpg",
+    image: "/furniture/dressing-01.jpg",
   },
   {
     title: "Прихожая",
     type: "Готовая работа",
     subtitle: "Прихожая с антресолями, обувницей и местом для верхней одежды",
-    image: "/reference/mix2.jpg",
+    image: "/furniture/hallway-01.jpg",
   },
   {
     title: "Кухня прямая",
     type: "Готовая работа",
-    subtitle: "Компактная прямая кухня в современном стиле с вместительными секциями",
-    image: "/reference/trento1.jpg",
+    subtitle: "Просторная прямая кухня белый + дерево, встроенная техника",
+    image: "/furniture/kitchen-02.jpg",
   },
   {
     title: "Стенка в гостиную",
     type: "Готовая работа",
-    subtitle: "Модульная стенка с телевизионной зоной, витринами и закрытыми секциями",
-    image: "/reference/sofas1.jpg",
+    subtitle: "Модульная стенка с телевизионной зоной и подсветкой под мрамор",
+    image: "/furniture/living-01.jpg",
   },
 ];
 
@@ -123,17 +123,17 @@ export const projects = [
   {
     title: "Кухня под потолок",
     text: "Угловая кухня с фасадами до потолка — максимум хранения при минимуме площади.",
-    image: "/reference/prod1.jpg",
+    image: "/furniture/kitchen-04.jpg",
   },
   {
     title: "Гардеробная вместо кладовки",
     text: "Превратили бесполезную кладовку в удобную гардеробную с подсветкой и зеркалом.",
-    image: "/reference/prod2.jpg",
+    image: "/furniture/dressing-02.jpg",
   },
   {
     title: "Прихожая в узком коридоре",
     text: "Встроенный шкаф глубиной 35 см с обувницей и антресолями для узкого коридора.",
-    image: "/reference/prod3.jpg",
+    image: "/furniture/wardrobe-08.jpg",
   },
 ];
 
