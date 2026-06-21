@@ -1,11 +1,11 @@
 export const site = {
   name: "ALLIANCE VK",
-  city: "Новосибирск",
+  city: "Новороссийск",
   phone: "+7 983 636-20-09",
   messenger: "https://vk.me/dostupnayamebel03",
   vk: "https://vk.com/dostupnayamebel03",
   email: "",
-  address: "Новосибирск и область",
+  address: "Новороссийск и Краснодарский край",
 };
 
 export const topLinks = ["Как мы работаем", "Гарантия качества", "Портфолио", "Контакты"];
@@ -105,7 +105,7 @@ export const popularModels = [
 ];
 
 export const advantages = [
-  "Собственное производство в Новосибирске",
+  "Собственное производство в Новороссийске",
   "Мебель точно под ваши размеры и планировку",
   "Бесплатный выезд замерщика и 3D-проект",
   "Работаем с любым бюджетом и стилем",
