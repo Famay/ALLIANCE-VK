@@ -1,8 +1,8 @@
 export const site = {
   name: "ALLIANCE VK",
   city: "Новороссийск",
-  phone: "+7 983 636-20-09",
-  phone2: "+7 918 657-79-00",
+  phone: "+7 918 657-79-00",
+  phone2: "+7 983 636-20-09",
   messenger: "https://vk.me/dostupnayamebel03",
   vk: "https://vk.com/dostupnayamebel03",
   email: "",
