@@ -2,10 +2,11 @@ export const site = {
   name: "ALLIANCE VK",
   city: "Новороссийск",
   phone: "+7 983 636-20-09",
+  phone2: "+7 918 657-79-00",
   messenger: "https://vk.me/dostupnayamebel03",
   vk: "https://vk.com/dostupnayamebel03",
   email: "",
-  address: "Новороссийск и Краснодарский край",
+  address: "бул. Дмитрия Шостаковича, 10, офис 100",
 };
 
 export const topLinks = ["Как мы работаем", "Гарантия качества", "Портфолио", "Контакты"];
@@ -142,6 +143,7 @@ export const catalogLinks = [
   "Угловые кухни",
   "Прямые кухни",
   "Шкафы-купе",
+  "Шкафы с распашными дверьми",
   "Встроенные шкафы",
   "Гардеробные",
   "Прихожие",

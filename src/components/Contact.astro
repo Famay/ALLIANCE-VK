@@ -15,10 +15,16 @@ import { quickCategories, site } from "../data/site";
         <div class="rounded-lg bg-white p-5">
           <p class="text-sm font-bold text-[#85786f]">Телефон</p>
           <a class="mt-2 block text-xl font-black text-[#1f2421] no-underline hover:text-[#c9362c]" href={`tel:${site.phone}`}>{site.phone}</a>
+          <a class="mt-1 block text-xl font-black text-[#1f2421] no-underline hover:text-[#c9362c]" href={`tel:${site.phone2}`}>{site.phone2}</a>
         </div>
         <div class="rounded-lg bg-white p-5">
           <p class="text-sm font-bold text-[#85786f]">Сообщения</p>
           <a class="mt-2 block text-xl font-black text-[#1f2421] no-underline hover:text-[#c9362c]" href={site.messenger}>Написать сейчас</a>
+        </div>
+        <div class="rounded-lg bg-white p-5 sm:col-span-2">
+          <p class="text-sm font-bold text-[#85786f]">Адрес</p>
+          <p class="mt-2 text-xl font-black text-[#1f2421]">{site.address}</p>
+          <p class="mt-1 text-sm text-[#85786f]">{site.city}</p>
         </div>
       </div>
     </div>

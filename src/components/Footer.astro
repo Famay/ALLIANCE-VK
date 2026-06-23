@@ -24,7 +24,9 @@ import { navigation, quickCategories, site } from "../data/site";
     <div class="grid gap-3 text-sm font-bold text-white/70">
       {quickCategories.map((item) => <a class="hover:text-white" href={item.href}>{item.title}</a>)}
       <a class="mt-3 text-white" href={`tel:${site.phone}`}>{site.phone}</a>
+      <a class="text-white" href={`tel:${site.phone2}`}>{site.phone2}</a>
       <a class="hover:text-white" href={site.vk}>ВКонтакте</a>
+      <p class="mt-1 text-xs leading-5 text-white/50">{site.address}, {site.city}</p>
     </div>
   </div>
 </footer>
