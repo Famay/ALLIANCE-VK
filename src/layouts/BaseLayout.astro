@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { site } from "../data/site";
 
 interface Props {
   title: string;
@@ -7,6 +8,28 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FurnitureStore",
+  name: site.name,
+  url: "https://альянсвк.рф",
+  telephone: site.phone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.address,
+    addressLocality: site.city,
+    addressCountry: "RU",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 44.7239,
+    longitude: 37.7686,
+  },
+  openingHours: "Mo-Su 09:00-20:00",
+  sameAs: [site.vk],
+  description,
+};
 ---
 
 <!doctype html>
@@ -20,6 +43,7 @@ const { title, description } = Astro.props;
     <meta property="og:type" content="website" />
     <link rel="icon" href="/Logo_V3.svg" type="image/png" />
     <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
   <body>
     <slot />
