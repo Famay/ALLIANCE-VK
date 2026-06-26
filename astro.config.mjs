@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
+  site: "https://альянсвк.рф",
   vite: {
     plugins: [tailwindcss()],
   },
