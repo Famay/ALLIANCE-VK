@@ -1,5 +1,5 @@
 export const site = {
-  name: "ALLIANCE VK",
+  name: "Альянс ВК",
   city: "Новороссийск",
   phone: "+7 918 657-79-00",
   phone2: "+7 983 636-20-09",
@@ -37,8 +37,8 @@ export const accessoryLinks = [
 ];
 
 export const stats = [
-  { value: "200+", label: "реализованных проектов" },
-  { value: "от 1 года", label: "гарантия на изделие" },
+  { value: "2000+", label: "реализованных проектов" },
+  { value: "12 лет", label: "стаж работы" },
   { value: "от 14 дней", label: "срок производства" },
 ];
 
@@ -130,9 +130,9 @@ export const projects = [
     image: "/furniture/dressing-02.jpg",
   },
   {
-    title: "Прихожая в узком коридоре",
-    text: "Встроенный шкаф глубиной 35 см с обувницей и антресолями для узкого коридора.",
-    image: "/furniture/wardrobe-08.jpg",
+    title: "Кабинет с витриной и столом",
+    text: "Шкаф-витрина с подсветкой и стеклянными дверьми в чёрном профиле — в паре с рабочим столом под дерево.",
+    image: "/furniture/study-01.jpg",
   },
 ];
 
@@ -149,8 +149,8 @@ export const catalogLinks = [
 ];
 
 export const productionStats = [
-  { value: "200+", label: "готовых проектов" },
-  { value: "50 лет", label: "опыт в мебели на заказ" },
+  { value: "2000+", label: "готовых проектов" },
+  { value: "12 лет", label: "стаж работы" },
   { value: "от 14 дней", label: "срок производства" },
   { value: "100%", label: "точно по вашим размерам" },
 ];
