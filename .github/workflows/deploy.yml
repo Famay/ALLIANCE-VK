@@ -21,6 +21,23 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Inject send config
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          python3 - <<'PY'
+          import os
+          cfg = "<?php\ndefine('TG_TOKEN', '{token}');\ndefine('TG_CHAT_ID', '{chat}');\ndefine('MAIL_TO', '{mail}');\n".format(
+              token=os.environ['TG_TOKEN'],
+              chat=os.environ['TG_CHAT_ID'],
+              mail=os.environ['MAIL_TO'],
+          )
+          with open('dist/send-config.php', 'w') as f:
+              f.write(cfg)
+          PY
+
       - name: Deploy via SCP
         uses: appleboy/scp-action@v0.1.7
         with:

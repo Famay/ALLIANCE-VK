@@ -301,6 +301,10 @@ import { site } from "../data/site";
       userData.name = val;
     } else if (currentState === "collect_phone") {
       userData.phone = val;
+      fetch("/send.php", {
+        method: "POST",
+        body: new URLSearchParams({ name: userData.name, phone: userData.phone, source: "chatbot" }),
+      }).catch(() => {});
     }
 
     setTimeout(() => goTo(state.next), 400);

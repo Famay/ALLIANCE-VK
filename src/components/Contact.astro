@@ -29,7 +29,7 @@ import { quickCategories, site } from "../data/site";
       </div>
     </div>
 
-    <form class="rounded-lg bg-white p-5 shadow-[0_18px_60px_rgba(31,36,33,0.1)]" action="#" method="post">
+    <form class="rounded-lg bg-white p-5 shadow-[0_18px_60px_rgba(31,36,33,0.1)]" id="contactForm" action="/send.php" method="post">
       <div class="grid gap-4 md:grid-cols-2">
         <label class="grid gap-2 text-sm font-bold text-[#2d2b29]">
           Имя
@@ -61,9 +61,45 @@ import { quickCategories, site } from "../data/site";
       </label>
 
       <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <button class="btn btn-primary" type="submit">Отправить заявку</button>
+        <button class="btn btn-primary" type="submit" id="contactSubmit">Отправить заявку</button>
         <p class="text-xs leading-5 text-[#85786f]">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
       </div>
+      <p id="contactResult" class="mt-3 hidden text-sm font-bold"></p>
     </form>
+
+<script>
+  const form = document.getElementById('contactForm') as HTMLFormElement;
+  const btn  = document.getElementById('contactSubmit') as HTMLButtonElement;
+  const result = document.getElementById('contactResult') as HTMLParagraphElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Отправляем…';
+    result.className = 'mt-3 hidden text-sm font-bold';
+
+    const body = new URLSearchParams(new FormData(form) as any);
+    body.set('source', 'form');
+
+    try {
+      const res = await fetch('/send.php', { method: 'POST', body });
+      const data = await res.json();
+      if (data.success) {
+        result.textContent = '✅ Заявка отправлена! Свяжемся с вами в ближайшее время.';
+        result.className = 'mt-3 text-sm font-bold text-green-700';
+        form.reset();
+      } else {
+        throw new Error(data.error || 'Ошибка');
+      }
+    } catch {
+      result.textContent = '❌ Не удалось отправить. Позвоните нам или напишите в ВК.';
+      result.className = 'mt-3 text-sm font-bold text-red-600';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Отправить заявку';
+      result.classList.remove('hidden');
+    }
+  });
+</script>
   </div>
 </section>
