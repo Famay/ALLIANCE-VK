@@ -26,7 +26,7 @@ if (!$name || !$phone) {
 
 $label = $source === 'chatbot' ? '🤖 Чат-бот' : '📋 Форма сайта';
 $lines = [
-    "📩 *Новая заявка* — {$label}",
+    "📩 Новая заявка — {$label}",
     "",
     "👤 Имя: {$name}",
     "📞 Телефон: {$phone}",
@@ -37,28 +37,50 @@ $lines[] = "";
 $lines[] = "🕐 " . date('d.m.Y H:i') . " (мск)";
 $text = implode("\n", $lines);
 
-$errors = [];
+$results = [];
 
-// Telegram
-$tgRes = @file_get_contents(
-    "https://api.telegram.org/bot" . TG_TOKEN . "/sendMessage",
-    false,
-    stream_context_create(['http' => [
-        'method'  => 'POST',
-        'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
-        'content' => http_build_query(['chat_id' => TG_CHAT_ID, 'text' => $text, 'parse_mode' => 'Markdown']),
-        'timeout' => 5,
-    ]])
+// --- Telegram ---
+$ch = curl_init("https://api.telegram.org/bot" . TG_TOKEN . "/sendMessage");
+curl_setopt_array($ch, [
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => ['chat_id' => TG_CHAT_ID, 'text' => $text],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT        => 10,
+    CURLOPT_SSL_VERIFYPEER => true,
+]);
+$tgRes = curl_exec($ch);
+$tgErr = curl_error($ch);
+curl_close($ch);
+$tgOk = $tgRes && (json_decode($tgRes)->ok ?? false);
+$results['telegram'] = $tgOk ? 'ok' : ('fail: ' . ($tgErr ?: $tgRes));
+
+// --- VK ---
+$ch = curl_init('https://api.vk.com/method/messages.send');
+curl_setopt_array($ch, [
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => [
+        'user_id'      => VK_USER_ID,
+        'message'      => $text,
+        'random_id'    => rand(1, 2147483647),
+        'access_token' => VK_TOKEN,
+        'v'            => '5.199',
+    ],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT        => 10,
+    CURLOPT_SSL_VERIFYPEER => true,
+]);
+$vkRes = curl_exec($ch);
+$vkErr = curl_error($ch);
+curl_close($ch);
+$vkData = json_decode($vkRes, true);
+$vkOk   = isset($vkData['response']);
+$results['vk'] = $vkOk ? 'ok' : ('fail: ' . ($vkErr ?: $vkRes));
+
+// Debug log (удалить после проверки)
+@file_put_contents(
+    __DIR__ . '/../send_debug.log',
+    date('Y-m-d H:i:s') . " | {$name} {$phone} [{$source}] | " . json_encode($results) . "\n",
+    FILE_APPEND
 );
-if (!$tgRes || !(json_decode($tgRes)->ok ?? false)) {
-    $errors[] = 'telegram';
-}
 
-// Email
-$subj    = "=?UTF-8?B?" . base64_encode("Новая заявка: {$name}") . "?=";
-$headers = "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit";
-if (!mail(MAIL_TO, $subj, $text, $headers)) {
-    $errors[] = 'email';
-}
-
-echo json_encode(['success' => true, 'errors' => $errors]);
+echo json_encode(['success' => $tgOk || $vkOk, 'results' => $results]);
