@@ -46,13 +46,12 @@ curl_setopt_array($ch, [
     CURLOPT_POSTFIELDS     => ['chat_id' => TG_CHAT_ID, 'text' => $text],
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT        => 10,
-    CURLOPT_SSL_VERIFYPEER => true,
 ]);
 $tgRes = curl_exec($ch);
 $tgErr = curl_error($ch);
 curl_close($ch);
 $tgOk = $tgRes && (json_decode($tgRes)->ok ?? false);
-$results['telegram'] = $tgOk ? 'ok' : ('fail: ' . ($tgErr ?: $tgRes));
+$results['telegram'] = $tgOk ? 'ok' : 'fail: ' . ($tgErr ?: $tgRes);
 
 // --- VK ---
 $ch = curl_init('https://api.vk.com/method/messages.send');
@@ -67,14 +66,57 @@ curl_setopt_array($ch, [
     ],
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT        => 10,
-    CURLOPT_SSL_VERIFYPEER => true,
 ]);
-$vkRes = curl_exec($ch);
-$vkErr = curl_error($ch);
+$vkRes  = curl_exec($ch);
+$vkErr  = curl_error($ch);
 curl_close($ch);
-$vkData = json_decode($vkRes, true);
-$vkOk   = isset($vkData['response']);
-$results['vk'] = $vkOk ? 'ok' : ('fail: ' . ($vkErr ?: $vkRes));
+$vkOk = $vkRes && isset(json_decode($vkRes, true)['response']);
+$results['vk'] = $vkOk ? 'ok' : 'fail: ' . ($vkErr ?: $vkRes);
+
+// --- Email via SMTP ---
+function smtp_send(string $host, string $user, string $pass, string $from, string $to, string $subject, string $body): string {
+    $sock = @stream_socket_client("ssl://{$host}:465", $errno, $errstr, 10);
+    if (!$sock) return "connect failed: {$errstr}";
+    stream_set_timeout($sock, 10);
+
+    $read = function () use ($sock): string {
+        $out = '';
+        while ($line = fgets($sock, 512)) {
+            $out .= $line;
+            if (isset($line[3]) && $line[3] === ' ') break;
+        }
+        return $out;
+    };
+    $write = fn(string $s) => fwrite($sock, $s . "\r\n");
+
+    $read();
+    $write("EHLO localhost"); $read();
+    $write("AUTH LOGIN"); $read();
+    $write(base64_encode($user)); $read();
+    $write(base64_encode($pass)); $r = $read();
+    if (strpos($r, '235') === false) { fclose($sock); return "auth failed: {$r}"; }
+
+    $write("MAIL FROM:<{$from}>"); $read();
+    $write("RCPT TO:<{$to}>"); $read();
+    $write("DATA"); $read();
+
+    $msg = "From: =?UTF-8?B?" . base64_encode("Альянс ВК") . "?= <{$from}>\r\n"
+         . "To: {$to}\r\n"
+         . "Subject: =?UTF-8?B?" . base64_encode("Новая заявка: {$subject}") . "?=\r\n"
+         . "MIME-Version: 1.0\r\n"
+         . "Content-Type: text/plain; charset=UTF-8\r\n"
+         . "Content-Transfer-Encoding: base64\r\n"
+         . "\r\n"
+         . chunk_split(base64_encode($body))
+         . "\r\n.";
+    $write($msg); $r = $read();
+    $write("QUIT");
+    fclose($sock);
+    return strpos($r, '250') !== false ? 'ok' : "send failed: {$r}";
+}
+
+$mailResult = smtp_send(MAIL_HOST, MAIL_FROM, MAIL_PASS, MAIL_FROM, MAIL_TO, "{$name} {$phone}", $text);
+$results['email'] = $mailResult;
 
 // Debug log (удалить после проверки)
 @file_put_contents(

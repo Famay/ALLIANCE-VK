@@ -25,9 +25,12 @@ jobs:
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-          MAIL_TO: ${{ secrets.MAIL_TO }}
           VK_TOKEN: ${{ secrets.VK_TOKEN }}
           VK_USER_ID: ${{ secrets.VK_USER_ID }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
         run: |
           python3 - <<'PY'
           import os
@@ -35,15 +38,21 @@ jobs:
               "<?php\n"
               "define('TG_TOKEN',   '{tg_token}');\n"
               "define('TG_CHAT_ID', '{tg_chat}');\n"
-              "define('MAIL_TO',    '{mail}');\n"
               "define('VK_TOKEN',   '{vk_token}');\n"
               "define('VK_USER_ID', '{vk_user}');\n"
+              "define('MAIL_TO',    '{mail_to}');\n"
+              "define('MAIL_FROM',  '{mail_from}');\n"
+              "define('MAIL_PASS',  '{mail_pass}');\n"
+              "define('MAIL_HOST',  '{mail_host}');\n"
           ).format(
               tg_token=os.environ['TG_TOKEN'],
               tg_chat=os.environ['TG_CHAT_ID'],
-              mail=os.environ['MAIL_TO'],
               vk_token=os.environ['VK_TOKEN'],
               vk_user=os.environ['VK_USER_ID'],
+              mail_to=os.environ['MAIL_TO'],
+              mail_from=os.environ['MAIL_FROM'],
+              mail_pass=os.environ['MAIL_PASS'],
+              mail_host=os.environ['MAIL_HOST'],
           )
           with open('dist/send-config.php', 'w') as f:
               f.write(cfg)
