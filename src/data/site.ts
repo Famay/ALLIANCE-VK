@@ -17,9 +17,9 @@ export const topLinks = [
 ];
 
 export const navigation = [
-  { title: "Кухни", href: "/#services" },
-  { title: "Шкафы", href: "/#services" },
-  { title: "Мебель для дома", href: "/#services" },
+  { title: "Кухни", href: "/portfolio/kitchen" },
+  { title: "Шкафы", href: "/portfolio/wardrobe" },
+  { title: "Гардеробные", href: "/portfolio/dressing" },
   { title: "Портфолио", href: "/portfolio" },
   { title: "Акции", href: "/#promos" },
   { title: "Контакты", href: "/#contacts" },
