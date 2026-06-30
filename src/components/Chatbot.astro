@@ -319,10 +319,10 @@ import { site } from "../data/site";
     messages.scrollTop = messages.scrollHeight;
   }
 
-  // Open after 8 sec if user hasn't interacted
+  // Open after 20 sec if user hasn't interacted
   setTimeout(() => {
     if (!isOpen) openChat();
-  }, 8000);
+  }, 20000);
 </script>
 
 <style is:global>

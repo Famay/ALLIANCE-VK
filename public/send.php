@@ -118,11 +118,4 @@ function smtp_send(string $host, string $user, string $pass, string $from, strin
 $mailResult = smtp_send(MAIL_HOST, MAIL_FROM, MAIL_PASS, MAIL_FROM, MAIL_TO, "{$name} {$phone}", $text);
 $results['email'] = $mailResult;
 
-// Debug log (удалить после проверки)
-@file_put_contents(
-    __DIR__ . '/send_debug.log',
-    date('Y-m-d H:i:s') . " | {$name} {$phone} [{$source}] | " . json_encode($results, JSON_UNESCAPED_UNICODE) . "\n",
-    FILE_APPEND
-);
-
 echo json_encode(['success' => $tgOk || $vkOk, 'results' => $results]);

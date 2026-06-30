@@ -37,7 +37,7 @@ import { quickCategories, site } from "../data/site";
         </label>
         <label class="grid gap-2 text-sm font-bold text-[#2d2b29]">
           Телефон
-          <input class="min-h-12 rounded-lg border border-[#ded4c8] bg-white px-4 outline-none focus:border-[#c9362c]" name="phone" placeholder="+7" />
+          <input class="min-h-12 rounded-lg border border-[#ded4c8] bg-white px-4 outline-none focus:border-[#c9362c]" name="phone" id="phoneInput" placeholder="+7 (___) ___-__-__" inputmode="tel" />
         </label>
       </div>
 
@@ -68,6 +68,27 @@ import { quickCategories, site } from "../data/site";
     </form>
 
 <script>
+  // Phone mask: +7 (___) ___-__-__
+  const phoneInput = document.getElementById('phoneInput') as HTMLInputElement;
+  phoneInput?.addEventListener('input', () => {
+    let v = phoneInput.value.replace(/\D/g, '');
+    if (v.startsWith('8')) v = '7' + v.slice(1);
+    if (!v.startsWith('7')) v = '7' + v;
+    v = v.slice(0, 11);
+    let out = '+7';
+    if (v.length > 1) out += ' (' + v.slice(1, 4);
+    if (v.length >= 4) out += ') ' + v.slice(4, 7);
+    if (v.length >= 7) out += '-' + v.slice(7, 9);
+    if (v.length >= 9) out += '-' + v.slice(9, 11);
+    phoneInput.value = out;
+  });
+  phoneInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && phoneInput.value === '+7') e.preventDefault();
+  });
+  phoneInput?.addEventListener('focus', () => {
+    if (!phoneInput.value) phoneInput.value = '+7';
+  });
+
   const form = document.getElementById('contactForm') as HTMLFormElement;
   const btn  = document.getElementById('contactSubmit') as HTMLButtonElement;
   const result = document.getElementById('contactResult') as HTMLParagraphElement;

@@ -6,7 +6,7 @@ import { navigation, site, topLinks } from "../data/site";
   <div class="glass-shell mx-auto max-w-[1880px] overflow-hidden">
     <div class="hidden border-b border-white/25 px-5 py-2 text-xs font-medium text-white/80 lg:flex lg:items-center lg:justify-between">
       <nav class="flex items-center gap-5">
-        {topLinks.map((item) => <a class="hover:text-white" href="#contacts">{item}</a>)}
+        {topLinks.map((item) => <a class="hover:text-white" href={item.href}>{item.title}</a>)}
       </nav>
       <div class="flex items-center gap-5">
         <a class="hover:text-white" href={site.vk}>ВКонтакте</a>

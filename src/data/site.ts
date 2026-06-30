@@ -9,7 +9,12 @@ export const site = {
   address: "бул. Дмитрия Шостаковича, 10, офис 100",
 };
 
-export const topLinks = ["Как мы работаем", "Гарантия качества", "Портфолио", "Контакты"];
+export const topLinks = [
+  { title: "Как мы работаем", href: "#process" },
+  { title: "Гарантия качества", href: "#advantages" },
+  { title: "Портфолио", href: "#projects" },
+  { title: "Контакты", href: "#contacts" },
+];
 
 export const navigation = [
   { title: "Кухни", href: "#services" },
@@ -21,11 +26,11 @@ export const navigation = [
 ];
 
 export const quickCategories = [
-  { title: "Кухни", href: "#services", image: "/furniture/kitchen-01.jpg" },
-  { title: "Шкафы", href: "#services", image: "/furniture/wardrobe-01.jpg" },
-  { title: "Гардеробные", href: "#services", image: "/furniture/dressing-01.jpg" },
-  { title: "Прихожие", href: "#services", image: "/furniture/hallway-01.jpg" },
-  { title: "Гостиные", href: "#services", image: "/furniture/living-01.jpg" },
+  { title: "Кухни", href: "#services", image: "/furniture/kitchen/kitchen-005.jpg" },
+  { title: "Шкафы", href: "#services", image: "/furniture/wardrobe/wardrobe-005.jpg" },
+  { title: "Гардеробные", href: "#services", image: "/furniture/dressing/dressing-005.jpg" },
+  { title: "Прихожие", href: "#services", image: "/furniture/hallway/hallway-001.jpg" },
+  { title: "Ванные", href: "#services", image: "/furniture/bathroom/bathroom-001.jpg" },
 ];
 
 export const accessoryLinks = [
@@ -46,22 +51,22 @@ export const services = [
   {
     title: "Кухни на заказ",
     text: "Прямые, угловые, П-образные — любая планировка под ваше пространство и образ жизни.",
-    image: "/furniture/kitchen-07.jpg",
+    image: "/furniture/kitchen/kitchen-010.jpg",
   },
   {
     title: "Шкафы и гардеробные",
     text: "Встроенные шкафы, купе и гардеробные комнаты точно по вашим размерам и потребностям.",
-    image: "/furniture/wardrobe-03.jpg",
+    image: "/furniture/wardrobe/wardrobe-010.jpg",
   },
   {
     title: "Прихожие",
     text: "Функциональные прихожие с системами хранения, зеркалами и обувными полками.",
-    image: "/furniture/hallway-01.jpg",
+    image: "/furniture/hallway/hallway-003.jpg",
   },
   {
     title: "Мебель для дома",
     text: "Гостиные, спальни, рабочие зоны и комплексные решения для всей квартиры.",
-    image: "/furniture/living-01.jpg",
+    image: "/furniture/shelf/shelf-005.jpg",
   },
 ];
 
@@ -70,37 +75,37 @@ export const popularModels = [
     title: "Кухня угловая",
     type: "Готовая работа",
     subtitle: "Угловая кухня бежевый матовый фасад, столешница под серый мрамор",
-    image: "/furniture/kitchen-05.jpg",
+    image: "/furniture/kitchen/kitchen-020.jpg",
   },
   {
     title: "Шкаф-купе",
     type: "Готовая работа",
     subtitle: "Встроенный шкаф-купе с зеркальными дверями и внутренней организацией",
-    image: "/furniture/wardrobe-03.jpg",
+    image: "/furniture/wardrobe/wardrobe-020.jpg",
   },
   {
     title: "Гардеробная",
     type: "Готовая работа",
     subtitle: "Гардеробная комната с открытыми секциями, ящиками и подсветкой",
-    image: "/furniture/dressing-01.jpg",
+    image: "/furniture/dressing/dressing-020.jpg",
   },
   {
     title: "Прихожая",
     type: "Готовая работа",
     subtitle: "Прихожая с антресолями, обувницей и местом для верхней одежды",
-    image: "/furniture/hallway-01.jpg",
+    image: "/furniture/hallway/hallway-005.jpg",
   },
   {
     title: "Кухня прямая",
     type: "Готовая работа",
     subtitle: "Просторная прямая кухня белый + дерево, встроенная техника",
-    image: "/furniture/kitchen-02.jpg",
+    image: "/furniture/kitchen/kitchen-035.jpg",
   },
   {
-    title: "Стенка в гостиную",
+    title: "Полки и стеллажи",
     type: "Готовая работа",
-    subtitle: "Модульная стенка с телевизионной зоной и подсветкой под мрамор",
-    image: "/furniture/living-01.jpg",
+    subtitle: "Открытые полки и стеллажи под любой интерьер и размер помещения",
+    image: "/furniture/shelf/shelf-010.jpg",
   },
 ];
 
@@ -122,17 +127,17 @@ export const projects = [
   {
     title: "Кухня под потолок",
     text: "Угловая кухня с фасадами до потолка — максимум хранения при минимуме площади.",
-    image: "/furniture/kitchen-04.jpg",
+    image: "/furniture/kitchen/kitchen-050.jpg",
   },
   {
     title: "Гардеробная вместо кладовки",
     text: "Превратили бесполезную кладовку в удобную гардеробную с подсветкой и зеркалом.",
-    image: "/furniture/dressing-02.jpg",
+    image: "/furniture/dressing/dressing-050.jpg",
   },
   {
     title: "Кабинет с витриной и столом",
     text: "Шкаф-витрина с подсветкой и стеклянными дверьми в чёрном профиле — в паре с рабочим столом под дерево.",
-    image: "/furniture/study-01.jpg",
+    image: "/furniture/desk/desk-001.jpg",
   },
 ];
 
