@@ -6,19 +6,19 @@ import { site } from "../../data/site";
 import fs from "node:fs";
 import path from "node:path";
 
-const CATEGORIES: Record<string, string> = {
-  kitchen:  "Кухни",
-  wardrobe: "Шкафы",
-  dressing: "Гардеробные",
-  hallway:  "Прихожие",
-  bathroom: "Ванные",
-  tumba:    "Тумбы",
-  shelf:    "Полки",
-  bed:      "Кровати",
-  desk:     "Столы",
-};
-
 export function getStaticPaths() {
+  const CATEGORIES: Record<string, string> = {
+    kitchen:  "Кухни",
+    wardrobe: "Шкафы",
+    dressing: "Гардеробные",
+    hallway:  "Прихожие",
+    bathroom: "Ванные",
+    tumba:    "Тумбы",
+    shelf:    "Полки",
+    bed:      "Кровати",
+    desk:     "Столы",
+  };
+
   const baseDir = path.join(process.cwd(), "public", "furniture");
   return Object.keys(CATEGORIES).map((slug) => {
     const dir = path.join(baseDir, slug);
@@ -30,13 +30,11 @@ export function getStaticPaths() {
         .sort()
         .map((f) => `/furniture/${slug}/${f}`);
     }
-    return { params: { category: slug }, props: { photos } };
+    return { params: { category: slug }, props: { photos, title: CATEGORIES[slug] } };
   }).filter((p) => p.props.photos.length > 0);
 }
 
-const { category } = Astro.params;
-const { photos } = Astro.props;
-const title = CATEGORIES[category!] ?? category;
+const { photos, title } = Astro.props;
 ---
 
 <BaseLayout
