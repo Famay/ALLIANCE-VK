@@ -12,7 +12,7 @@ export const site = {
 export const topLinks = [
   { title: "Как мы работаем", href: "#process" },
   { title: "Гарантия качества", href: "#advantages" },
-  { title: "Портфолио", href: "#projects" },
+  { title: "Портфолио", href: "/portfolio" },
   { title: "Контакты", href: "#contacts" },
 ];
 
@@ -20,7 +20,7 @@ export const navigation = [
   { title: "Кухни", href: "#services" },
   { title: "Шкафы", href: "#services" },
   { title: "Мебель для дома", href: "#services" },
-  { title: "Портфолио", href: "#projects" },
+  { title: "Портфолио", href: "/portfolio" },
   { title: "Акции", href: "#promos" },
   { title: "Контакты", href: "#contacts" },
 ];

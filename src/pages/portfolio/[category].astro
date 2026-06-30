@@ -1,0 +1,146 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { site } from "../../data/site";
+import fs from "node:fs";
+import path from "node:path";
+
+const CATEGORIES: Record<string, string> = {
+  kitchen:  "Кухни",
+  wardrobe: "Шкафы",
+  dressing: "Гардеробные",
+  hallway:  "Прихожие",
+  bathroom: "Ванные",
+  tumba:    "Тумбы",
+  shelf:    "Полки",
+  bed:      "Кровати",
+  desk:     "Столы",
+};
+
+export function getStaticPaths() {
+  const baseDir = path.join(process.cwd(), "public", "furniture");
+  return Object.keys(CATEGORIES).map((slug) => {
+    const dir = path.join(baseDir, slug);
+    let photos: string[] = [];
+    if (fs.existsSync(dir)) {
+      photos = fs
+        .readdirSync(dir)
+        .filter((f) => f.endsWith(".jpg"))
+        .sort()
+        .map((f) => `/furniture/${slug}/${f}`);
+    }
+    return { params: { category: slug }, props: { photos } };
+  }).filter((p) => p.props.photos.length > 0);
+}
+
+const { category } = Astro.params;
+const { photos } = Astro.props;
+const title = CATEGORIES[category!] ?? category;
+---
+
+<BaseLayout
+  title={`${title} на заказ — фото работ — ${site.name}`}
+  description={`Фотографии готовых работ: ${title?.toLowerCase()} на заказ в Новороссийске. ${photos.length} реальных проектов.`}
+>
+  <Header />
+
+  <main class="min-h-screen bg-[#f5f0eb] pb-20 pt-36">
+    <div class="container">
+      <nav class="mb-8 flex items-center gap-2 text-sm text-[--muted-color]">
+        <a href="/" class="hover:text-[--primary-color]">Главная</a>
+        <span>/</span>
+        <a href="/portfolio" class="hover:text-[--primary-color]">Портфолио</a>
+        <span>/</span>
+        <span class="font-semibold text-[--main-color]">{title}</span>
+      </nav>
+
+      <h1 class="display-title text-5xl lg:text-6xl">{title}</h1>
+      <p class="mt-3 text-[--muted-color]">{photos.length} фото</p>
+
+      <div
+        id="gallery"
+        class="mt-10 columns-2 gap-3 sm:columns-3 lg:columns-4"
+      >
+        {
+          photos.map((src, i) => (
+            <button
+              type="button"
+              class="mb-3 block w-full cursor-zoom-in overflow-hidden rounded-xl"
+              data-index={i}
+            >
+              <img
+                src={src}
+                alt={`${title} ${i + 1}`}
+                class="w-full object-cover transition duration-300 hover:scale-105"
+                loading="lazy"
+              />
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="mt-12 flex flex-wrap items-center gap-4">
+        <a href="/portfolio" class="btn btn-secondary">← Все категории</a>
+        <a href="/#contacts" class="btn btn-primary">Заказать {title?.toLowerCase()}</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div
+    id="lb"
+    class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/92"
+    aria-modal="true"
+    role="dialog"
+  >
+    <button id="lb-close" type="button" class="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white/80 hover:bg-white/20 hover:text-white">✕</button>
+    <button id="lb-prev" type="button" class="absolute left-3 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-3xl text-white/80 hover:bg-white/20 hover:text-white">‹</button>
+    <button id="lb-next" type="button" class="absolute right-3 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-3xl text-white/80 hover:bg-white/20 hover:text-white">›</button>
+    <img id="lb-img" src="" alt="" class="max-h-[90vh] max-w-[90vw] rounded-xl object-contain shadow-2xl" />
+    <p id="lb-counter" class="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-white/50"></p>
+  </div>
+
+  <Footer />
+</BaseLayout>
+
+<script define:vars={{ photos }}>
+  const lb     = document.getElementById("lb");
+  const lbImg  = document.getElementById("lb-img");
+  const lbCtr  = document.getElementById("lb-counter");
+  let current  = 0;
+
+  function show(i) {
+    current = (i + photos.length) % photos.length;
+    lbImg.src = photos[current];
+    lbImg.alt = `Фото ${current + 1}`;
+    lbCtr.textContent = `${current + 1} / ${photos.length}`;
+    lb.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+  function close() {
+    lb.style.display = "none";
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("gallery").addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-index]");
+    if (btn) show(Number(btn.dataset.index));
+  });
+
+  document.getElementById("lb-close").addEventListener("click", close);
+  document.getElementById("lb-prev").addEventListener("click", () => show(current - 1));
+  document.getElementById("lb-next").addEventListener("click", () => show(current + 1));
+
+  lb.addEventListener("click", (e) => {
+    if (e.target === lb) close();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (lb.style.display !== "flex") return;
+    if (e.key === "Escape")      close();
+    if (e.key === "ArrowLeft")   show(current - 1);
+    if (e.key === "ArrowRight")  show(current + 1);
+  });
+</script>

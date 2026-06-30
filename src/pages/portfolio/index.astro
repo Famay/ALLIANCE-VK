@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { site } from "../../data/site";
+import fs from "node:fs";
+import path from "node:path";
+
+const CATEGORIES = [
+  { slug: "kitchen",  title: "Кухни" },
+  { slug: "wardrobe", title: "Шкафы" },
+  { slug: "dressing", title: "Гардеробные" },
+  { slug: "hallway",  title: "Прихожие" },
+  { slug: "bathroom", title: "Ванные" },
+  { slug: "tumba",    title: "Тумбы" },
+  { slug: "shelf",    title: "Полки" },
+  { slug: "bed",      title: "Кровати" },
+  { slug: "desk",     title: "Столы" },
+];
+
+const baseDir = path.join(process.cwd(), "public", "furniture");
+
+const categories = CATEGORIES.map((cat) => {
+  const dir = path.join(baseDir, cat.slug);
+  let count = 0;
+  let cover = "";
+  if (fs.existsSync(dir)) {
+    const files = fs.readdirSync(dir).filter((f) => f.endsWith(".jpg")).sort();
+    count = files.length;
+    const pick = files[4] ?? files[0];
+    if (pick) cover = `/furniture/${cat.slug}/${pick}`;
+  }
+  return { ...cat, count, cover };
+}).filter((c) => c.count > 0);
+---
+
+<BaseLayout
+  title={`Портфолио мебели на заказ — ${site.name}`}
+  description="Фотографии готовых работ: кухни, шкафы, гардеробные, прихожие и другая мебель на заказ в Новороссийске."
+>
+  <Header />
+
+  <main class="min-h-screen bg-[#f5f0eb] pb-20 pt-36">
+    <div class="container">
+      <p class="eyebrow mb-4">Наши работы</p>
+      <h1 class="display-title text-5xl lg:text-6xl">Портфолио</h1>
+      <p class="mt-4 max-w-xl text-lg leading-7 text-[--muted-color]">
+        Реальные проекты, выполненные нашей командой в Новороссийске. Выберите категорию, чтобы посмотреть фото.
+      </p>
+
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          categories.map((cat) => (
+            <a
+              href={`/portfolio/${cat.slug}`}
+              class="group block overflow-hidden rounded-2xl bg-white no-underline shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg"
+            >
+              <div class="relative aspect-[4/3] overflow-hidden bg-[--border-color]">
+                {cat.cover && (
+                  <img
+                    src={cat.cover}
+                    alt={cat.title}
+                    class="size-full object-cover transition duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                )}
+              </div>
+              <div class="flex items-center justify-between p-5">
+                <div>
+                  <h2 class="text-xl font-black text-[--main-color]">{cat.title}</h2>
+                  <p class="mt-0.5 text-sm text-[--muted-color]">{cat.count} фото</p>
+                </div>
+                <svg class="size-5 text-[--primary-color] transition duration-200 group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="mt-16 text-center">
+        <a href="/#contacts" class="btn btn-primary px-8">Заказать мебель</a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
