@@ -10,27 +10,27 @@ export const site = {
 };
 
 export const topLinks = [
-  { title: "Как мы работаем", href: "#process" },
-  { title: "Гарантия качества", href: "#advantages" },
+  { title: "Как мы работаем", href: "/#process" },
+  { title: "Гарантия качества", href: "/#advantages" },
   { title: "Портфолио", href: "/portfolio" },
-  { title: "Контакты", href: "#contacts" },
+  { title: "Контакты", href: "/#contacts" },
 ];
 
 export const navigation = [
-  { title: "Кухни", href: "#services" },
-  { title: "Шкафы", href: "#services" },
-  { title: "Мебель для дома", href: "#services" },
+  { title: "Кухни", href: "/#services" },
+  { title: "Шкафы", href: "/#services" },
+  { title: "Мебель для дома", href: "/#services" },
   { title: "Портфолио", href: "/portfolio" },
-  { title: "Акции", href: "#promos" },
-  { title: "Контакты", href: "#contacts" },
+  { title: "Акции", href: "/#promos" },
+  { title: "Контакты", href: "/#contacts" },
 ];
 
 export const quickCategories = [
-  { title: "Кухни", href: "#services", image: "/furniture/kitchen/kitchen-005.jpg" },
-  { title: "Шкафы", href: "#services", image: "/furniture/wardrobe/wardrobe-005.jpg" },
-  { title: "Гардеробные", href: "#services", image: "/furniture/dressing/dressing-005.jpg" },
-  { title: "Прихожие", href: "#services", image: "/furniture/hallway/hallway-001.jpg" },
-  { title: "Ванные", href: "#services", image: "/furniture/bathroom/bathroom-001.jpg" },
+  { title: "Кухни", href: "/portfolio/kitchen", image: "/furniture/kitchen/kitchen-005.jpg" },
+  { title: "Шкафы", href: "/portfolio/wardrobe", image: "/furniture/wardrobe/wardrobe-005.jpg" },
+  { title: "Гардеробные", href: "/portfolio/dressing", image: "/furniture/dressing/dressing-005.jpg" },
+  { title: "Прихожие", href: "/portfolio/hallway", image: "/furniture/hallway/hallway-001.jpg" },
+  { title: "Ванные", href: "/portfolio/bathroom", image: "/furniture/bathroom/bathroom-001.jpg" },
 ];
 
 export const accessoryLinks = [
