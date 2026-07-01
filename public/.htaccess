@@ -1,3 +1,10 @@
 RewriteEngine On
 RewriteCond %{HTTP:X-Forwarded-Proto} =http
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+ErrorDocument 404 /404.html
+
+<Files "send-config.php">
+  Order allow,deny
+  Deny from all
+</Files>

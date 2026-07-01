@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title={`Политика конфиденциальности — ${site.name}`}
+  description="Политика обработки персональных данных компании Альянс ВК."
+>
+  <Header />
+
+  <main class="min-h-screen bg-[#f5f0eb] pb-20 pt-36">
+    <div class="container max-w-3xl">
+      <h1 class="display-title text-4xl lg:text-5xl">Политика конфиденциальности</h1>
+      <p class="mt-3 text-sm text-[--muted-color]">Последнее обновление: июнь 2025 г.</p>
+
+      <div class="prose mt-10 space-y-8 text-[--main-color]">
+
+        <section>
+          <h2 class="text-2xl font-black">1. Кто собирает данные</h2>
+          <p class="mt-3 leading-7 text-[--muted-color]">
+            Оператор персональных данных — ИП «{site.name}», г. {site.city}, {site.address}.
+            Телефон: <a class="font-bold text-[--primary-color]" href={`tel:${site.phone}`}>{site.phone}</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-black">2. Какие данные мы собираем</h2>
+          <ul class="mt-3 list-disc space-y-2 pl-5 leading-7 text-[--muted-color]">
+            <li>Имя (как к вам обращаться)</li>
+            <li>Номер телефона</li>
+            <li>Комментарий к заявке (по желанию)</li>
+            <li>Выбранная категория мебели (по желанию)</li>
+          </ul>
+          <p class="mt-3 leading-7 text-[--muted-color]">
+            Мы не собираем платёжные данные, паспортные данные и иные чувствительные категории информации.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-black">3. Как используются данные</h2>
+          <p class="mt-3 leading-7 text-[--muted-color]">
+            Данные используются исключительно для обратной связи: перезвонить вам, уточнить задачу
+            и договориться о бесплатном замере. Мы не передаём ваши данные третьим лицам
+            в коммерческих целях и не используем их для рассылок без вашего согласия.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-black">4. Где хранятся данные</h2>
+          <p class="mt-3 leading-7 text-[--muted-color]">
+            Заявки с сайта поступают напрямую менеджерам компании через защищённые каналы
+            (Telegram, email). Данные не сохраняются в базах данных сайта.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-black">5. Ваши права</h2>
+          <p class="mt-3 leading-7 text-[--muted-color]">
+            Вы вправе в любой момент запросить удаление или уточнение своих данных.
+            Для этого свяжитесь с нами по телефону{" "}
+            <a class="font-bold text-[--primary-color]" href={`tel:${site.phone}`}>{site.phone}</a>{" "}
+            или напишите в{" "}
+            <a class="font-bold text-[--primary-color]" href={site.vk}>ВКонтакте</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-black">6. Согласие</h2>
+          <p class="mt-3 leading-7 text-[--muted-color]">
+            Отправляя форму на сайте, вы подтверждаете согласие на обработку указанных персональных
+            данных в соответствии с настоящей политикой и Федеральным законом № 152-ФЗ
+            «О персональных данных».
+          </p>
+        </section>
+
+      </div>
+
+      <div class="mt-12">
+        <a href="/" class="btn btn-secondary">← На главную</a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

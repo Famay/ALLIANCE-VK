@@ -1,0 +1,197 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { advantages, productionStats, site } from "../data/site";
+---
+
+<BaseLayout
+  title={`О компании — ${site.name} | мебель на заказ в Новороссийске`}
+  description="Альянс ВК — собственное производство мебели в Новороссийске. 12 лет опыта, 2000+ реализованных проектов, гарантия от 1 года."
+>
+  <Header />
+
+  <main>
+
+    <!-- Hero -->
+    <section class="relative min-h-[70vh] overflow-hidden text-white">
+      <img
+        class="absolute inset-0 size-full object-cover"
+        src="/furniture/kitchen/kitchen-001.webp"
+        alt="Производство мебели Альянс ВК"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40"></div>
+      <div class="container relative flex min-h-[70vh] flex-col justify-end pb-12 pt-40">
+        <p class="eyebrow text-white/70">О компании</p>
+        <h1 class="display-title mt-4 max-w-3xl text-6xl leading-[0.92] lg:text-7xl">
+          Делаем мебель<br />в Новороссийске<br />уже 12 лет
+        </h1>
+        <p class="mt-6 max-w-xl text-xl leading-8 text-white/78">
+          Собственный цех, современное оборудование и команда мастеров — всё в одном городе.
+        </p>
+      </div>
+    </section>
+
+    <!-- История -->
+    <section class="section bg-white">
+      <div class="container grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <p class="eyebrow">История</p>
+          <h2 class="display-heading mt-3 text-5xl leading-none text-[--main-color] lg:text-6xl">
+            С чего всё начиналось
+          </h2>
+          <p class="mt-6 text-lg leading-8 text-[--muted-color]">
+            Альянс ВК начинал с небольшого цеха и нескольких мастеров, которые умели делать
+            мебель честно — точно по размерам, из нормальных материалов и без посредников.
+          </p>
+          <p class="mt-4 text-lg leading-8 text-[--muted-color]">
+            За 12 лет выросли в полноценное производство: собственные станки с ЧПУ, склад
+            материалов, конструкторы и монтажная бригада. Сегодня от замера до готовой кухни
+            проходит не больше трёх недель — и весь путь под одной крышей.
+          </p>
+          <p class="mt-4 text-lg leading-8 text-[--muted-color]">
+            Работаем только по Краснодарскому краю, чтобы контролировать каждый этап лично.
+            Больше 2000 реализованных проектов — это не маркетинг, это адреса наших клиентов
+            по всему Новороссийску.
+          </p>
+        </div>
+        <div class="relative overflow-hidden rounded-[1.8rem]">
+          <img
+            class="size-full object-cover"
+            src="/furniture/dressing/dressing-001.webp"
+            alt="Готовая работа — гардеробная на заказ"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Цифры -->
+    <section class="section bg-[--main-color] text-white">
+      <div class="container">
+        <p class="eyebrow text-white/60">В цифрах</p>
+        <h2 class="display-heading mt-3 text-5xl leading-none lg:text-6xl">Производство говорит само за себя</h2>
+        <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {productionStats.map((item) => (
+            <div class="border-t border-white/20 pt-6">
+              <p class="text-5xl font-black">{item.value}</p>
+              <p class="mt-3 text-base leading-6 text-white/65">{item.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Производство -->
+    <section class="section bg-[--light-color]">
+      <div class="container">
+        <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+          <div>
+            <p class="eyebrow">Производство</p>
+            <h2 class="display-heading mt-3 text-5xl leading-none text-[--main-color] lg:text-6xl">
+              Всё делаем сами
+            </h2>
+            <p class="mt-6 text-lg leading-8 text-[--muted-color]">
+              Никаких субподрядчиков и перекупщиков. Замерщик, конструктор, раскройный цех,
+              кромкооблицовщик, сборщик и монтажник — все работают у нас в штате.
+            </p>
+            <p class="mt-4 text-lg leading-8 text-[--muted-color]">
+              Это значит: мы контролируем сроки, не перекладываем ответственность и можем
+              доработать проект в любой момент без бюрократии.
+            </p>
+          </div>
+          <div class="grid gap-4">
+            {[
+              { label: "Раскройный цех", text: "Точный распил ЛДСП и МДФ на станках с ЧПУ" },
+              { label: "Кромкооблицовка", text: "Меламиновая и ПВХ-кромка до 2 мм" },
+              { label: "Покраска", text: "Матовая и глянцевая эмаль, эффект дерева" },
+              { label: "Монтаж", text: "Бригада в штате, с гарантией на работы" },
+            ].map((item) => (
+              <div class="flex items-start gap-4 rounded-2xl bg-white p-5">
+                <span class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-[--primary-color] text-xs font-black text-white">✓</span>
+                <div>
+                  <p class="font-black text-[--main-color]">{item.label}</p>
+                  <p class="mt-1 text-sm leading-6 text-[--muted-color]">{item.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section class="section bg-white">
+      <div class="container grid gap-8 lg:grid-cols-2 lg:items-center">
+        <div>
+          <p class="eyebrow">Принципы</p>
+          <h2 class="display-heading mt-3 text-5xl leading-none text-[--main-color] lg:text-6xl">
+            Почему клиенты возвращаются
+          </h2>
+          <p class="mt-6 text-lg leading-8 text-[--muted-color]">
+            Больше половины заказов — это рекомендации или повторные обращения. Мы не тратим
+            бюджет на обещания, которые нельзя выполнить.
+          </p>
+          <div class="mt-8 divide-y divide-[--border-color]">
+            {advantages.map((item, i) => (
+              <div class="grid grid-cols-[44px_1fr] gap-4 py-5">
+                <span class="text-sm font-black text-[--primary-color]">{String(i + 1).padStart(2, "0")}</span>
+                <p class="text-xl font-semibold text-[--main-color]">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="grid gap-4">
+          <div class="overflow-hidden rounded-[1.4rem]">
+            <img
+              class="size-full object-cover"
+              src="/furniture/kitchen/kitchen-010.webp"
+              alt="Кухня на заказ — пример работы"
+              loading="lazy"
+            />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="overflow-hidden rounded-[1.4rem]">
+              <img
+                class="size-full object-cover"
+                src="/furniture/wardrobe/wardrobe-010.webp"
+                alt="Шкаф на заказ"
+                loading="lazy"
+              />
+            </div>
+            <div class="overflow-hidden rounded-[1.4rem]">
+              <img
+                class="size-full object-cover"
+                src="/furniture/hallway/hallway-003.webp"
+                alt="Прихожая на заказ"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section bg-[--light-color]">
+      <div class="container max-w-3xl text-center">
+        <p class="eyebrow">Следующий шаг</p>
+        <h2 class="display-heading mt-3 text-5xl leading-none text-[--main-color] lg:text-6xl">
+          Готовы обсудить проект?
+        </h2>
+        <p class="mt-6 text-lg leading-7 text-[--muted-color]">
+          Замер бесплатный. Звоните или оставьте заявку — ответим в течение часа.
+        </p>
+        <div class="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <a href="/#contacts" class="btn btn-primary px-8">Рассчитать стоимость</a>
+          <a href={`tel:${site.phone}`} class="btn btn-secondary px-8">{site.phone}</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

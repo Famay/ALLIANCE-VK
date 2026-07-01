@@ -8,3 +8,5 @@ dist/
 Thumbs.db
 *.log
 .codex-*.log
+public/furniture/_jpg_backup/
+public/furniture/_trash/

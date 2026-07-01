@@ -9,12 +9,14 @@ import path from "node:path";
 export function getStaticPaths() {
   const CATEGORIES: Record<string, string> = {
     kitchen:  "Кухни",
-    wardrobe: "Шкафы",
+    swing:    "Шкафы распашные",
+    sliding:  "Шкафы-купе",
     dressing: "Гардеробные",
     hallway:  "Прихожие",
+    living:   "Гостиные и ТВ-зоны",
     bathroom: "Ванные",
     tumba:    "Тумбы",
-    shelf:    "Полки",
+    shelf:    "Стеллажи",
     bed:      "Кровати",
     desk:     "Столы",
   };
@@ -26,7 +28,7 @@ export function getStaticPaths() {
     if (fs.existsSync(dir)) {
       photos = fs
         .readdirSync(dir)
-        .filter((f) => f.endsWith(".jpg"))
+        .filter((f) => f.endsWith(".webp"))
         .sort()
         .map((f) => `/furniture/${slug}/${f}`);
     }
@@ -91,6 +93,7 @@ const { photos, title } = Astro.props;
     class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/92"
     aria-modal="true"
     role="dialog"
+    aria-label="Просмотр фотографии"
   >
     <button id="lb-close" type="button" class="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white/80 hover:bg-white/20 hover:text-white">✕</button>
     <button id="lb-prev" type="button" class="absolute left-3 top-1/2 flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-3xl text-white/80 hover:bg-white/20 hover:text-white">‹</button>
@@ -103,10 +106,14 @@ const { photos, title } = Astro.props;
 </BaseLayout>
 
 <script define:vars={{ photos }}>
-  const lb     = document.getElementById("lb");
-  const lbImg  = document.getElementById("lb-img");
-  const lbCtr  = document.getElementById("lb-counter");
-  let current  = 0;
+  const lb      = document.getElementById("lb");
+  const lbImg   = document.getElementById("lb-img");
+  const lbCtr   = document.getElementById("lb-counter");
+  const lbClose = document.getElementById("lb-close");
+  const lbPrev  = document.getElementById("lb-prev");
+  const lbNext  = document.getElementById("lb-next");
+  let current   = 0;
+  let prevFocus = null;
 
   function show(i) {
     current = (i + photos.length) % photos.length;
@@ -115,11 +122,14 @@ const { photos, title } = Astro.props;
     lbCtr.textContent = `${current + 1} / ${photos.length}`;
     lb.style.display = "flex";
     document.body.style.overflow = "hidden";
+    prevFocus = document.activeElement;
+    lbClose.focus();
   }
 
   function close() {
     lb.style.display = "none";
     document.body.style.overflow = "";
+    prevFocus?.focus();
   }
 
   document.getElementById("gallery").addEventListener("click", (e) => {
@@ -127,9 +137,9 @@ const { photos, title } = Astro.props;
     if (btn) show(Number(btn.dataset.index));
   });
 
-  document.getElementById("lb-close").addEventListener("click", close);
-  document.getElementById("lb-prev").addEventListener("click", () => show(current - 1));
-  document.getElementById("lb-next").addEventListener("click", () => show(current + 1));
+  lbClose.addEventListener("click", close);
+  lbPrev.addEventListener("click", () => show(current - 1));
+  lbNext.addEventListener("click", () => show(current + 1));
 
   lb.addEventListener("click", (e) => {
     if (e.target === lb) close();
@@ -137,8 +147,17 @@ const { photos, title } = Astro.props;
 
   document.addEventListener("keydown", (e) => {
     if (lb.style.display !== "flex") return;
-    if (e.key === "Escape")      close();
-    if (e.key === "ArrowLeft")   show(current - 1);
-    if (e.key === "ArrowRight")  show(current + 1);
+    if (e.key === "Escape")     { close(); return; }
+    if (e.key === "ArrowLeft")  { show(current - 1); return; }
+    if (e.key === "ArrowRight") { show(current + 1); return; }
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const focusable = [lbClose, lbPrev, lbNext];
+      const idx = focusable.indexOf(document.activeElement);
+      const next = e.shiftKey
+        ? (idx - 1 + focusable.length) % focusable.length
+        : (idx + 1) % focusable.length;
+      focusable[next].focus();
+    }
   });
 </script>

@@ -9,11 +9,13 @@ interface Props {
 
 const { title, description } = Astro.props;
 
+const baseUrl = Astro.site?.href.replace(/\/$/, "") ?? "https://альянсвк.рф";
+
 const schema = {
   "@context": "https://schema.org",
   "@type": "FurnitureStore",
   name: site.name,
-  url: "https://альянсвк.рф",
+  url: baseUrl,
   telephone: site.phone,
   address: {
     "@type": "PostalAddress",
@@ -29,7 +31,7 @@ const schema = {
   },
   openingHours: "Mo-Su 09:00-20:00",
   priceRange: "от 15 000 ₽",
-  image: "https://xn--80aeycky9eya.xn--p1ai/Logo_V3.png",
+  image: `${baseUrl}/Logo_V3.png`,
   sameAs: [site.vk],
   description,
 };
@@ -44,7 +46,9 @@ const schema = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <link rel="icon" href="/Logo_V3.svg" type="image/png" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:image" content={`${baseUrl}/furniture/kitchen/kitchen-001.webp`} />
+    <link rel="icon" href="/Logo_V3.svg" type="image/svg+xml" />
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>

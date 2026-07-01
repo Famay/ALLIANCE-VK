@@ -30,14 +30,15 @@ import { quickCategories, site } from "../data/site";
     </div>
 
     <form class="rounded-lg bg-white p-5 shadow-[0_18px_60px_rgba(31,36,33,0.1)]" id="contactForm" action="/send.php" method="post">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" />
       <div class="grid gap-4 md:grid-cols-2">
         <label class="grid gap-2 text-sm font-bold text-[#2d2b29]">
           Имя
-          <input class="min-h-12 rounded-lg border border-[#ded4c8] bg-white px-4 outline-none focus:border-[#c9362c]" name="name" placeholder="Как к вам обращаться" />
+          <input class="min-h-12 rounded-lg border border-[#ded4c8] bg-white px-4 outline-none focus:border-[#c9362c]" name="name" placeholder="Как к вам обращаться" required />
         </label>
         <label class="grid gap-2 text-sm font-bold text-[#2d2b29]">
           Телефон
-          <input class="min-h-12 rounded-lg border border-[#ded4c8] bg-white px-4 outline-none focus:border-[#c9362c]" name="phone" id="phoneInput" placeholder="+7 (___) ___-__-__" inputmode="tel" />
+          <input class="min-h-12 rounded-lg border border-[#ded4c8] bg-white px-4 outline-none focus:border-[#c9362c]" name="phone" id="phoneInput" placeholder="+7 (___) ___-__-__" inputmode="tel" required />
         </label>
       </div>
 
@@ -99,7 +100,11 @@ import { quickCategories, site } from "../data/site";
     btn.textContent = 'Отправляем…';
     result.className = 'mt-3 hidden text-sm font-bold';
 
-    const body = new URLSearchParams(new FormData(form) as any);
+    const formData = new FormData(form);
+    const body = new URLSearchParams();
+    for (const [key, val] of formData) {
+      body.append(key, val as string);
+    }
     body.set('source', 'form');
 
     try {

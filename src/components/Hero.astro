@@ -1,12 +1,14 @@
 ---
-import { accessoryLinks, quickCategories, site, stats } from "../data/site";
+import { accessoryLinks, productionStats, quickCategories, site } from "../data/site";
 ---
 
 <section class="hero-cover relative min-h-screen overflow-hidden text-white">
   <img
     class="absolute inset-0 size-full object-cover"
-    src="/furniture/kitchen-01.jpg"
+    src="/furniture/kitchen-01.webp"
     alt="Светлый интерьер с мебелью на заказ"
+    loading="eager"
+    fetchpriority="high"
   />
   <div class="absolute inset-0 bg-[radial-gradient(circle_closest-corner_at_30px_20px,rgba(0,0,0,0)_0%,rgba(0,0,0,.24)_85%)]"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/35"></div>
@@ -41,7 +43,7 @@ import { accessoryLinks, quickCategories, site, stats } from "../data/site";
 
       <div class="glass-line grid min-w-72 grid-cols-2 gap-3 rounded-2xl p-4">
         {
-          stats.map((item) => (
+          productionStats.slice(0, 3).map((item) => (
             <div>
               <p class="text-2xl font-black">{item.value}</p>
               <p class="mt-1 text-xs leading-5 text-white/68">{item.label}</p>

@@ -29,4 +29,8 @@ import { navigation, quickCategories, site } from "../data/site";
       <p class="mt-1 text-xs leading-5 text-white/50">{site.address}, {site.city}</p>
     </div>
   </div>
+  <div class="container mt-8 border-t border-white/10 pt-6 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between text-xs text-white/40">
+    <p>© {new Date().getFullYear()} {site.name}. Мебель на заказ в {site.city}.</p>
+    <a class="hover:text-white/70" href="/privacy">Политика конфиденциальности</a>
+  </div>
 </footer>

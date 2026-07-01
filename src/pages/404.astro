@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title={`Страница не найдена — ${site.name}`}
+  description="Запрошенная страница не существует."
+>
+  <Header />
+
+  <main class="flex min-h-screen flex-col items-center justify-center bg-[#f5f0eb] px-4 text-center">
+    <p class="eyebrow">Ошибка 404</p>
+    <h1 class="display-title mt-4 text-6xl lg:text-8xl">Страница<br />не найдена</h1>
+    <p class="mt-6 max-w-sm text-lg leading-7 text-[--muted-color]">
+      Возможно, адрес изменился или страница была удалена.
+    </p>
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+      <a href="/" class="btn btn-primary">На главную</a>
+      <a href="/portfolio" class="btn btn-secondary">Смотреть портфолио</a>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
