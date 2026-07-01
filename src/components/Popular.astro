@@ -9,15 +9,23 @@ import { popularModels } from "../data/site";
         <p class="eyebrow">Портфолио</p>
         <h2 class="display-heading mt-3 text-5xl leading-none text-[var(--main-color)] lg:text-6xl">Примеры наших работ</h2>
       </div>
-      <a class="btn btn-primary" href="#contacts">Получить консультацию</a>
+      <div class="flex items-center gap-3">
+        <button data-prev aria-label="Назад" class="hidden h-11 w-11 items-center justify-center rounded-full border border-[var(--border-color)] bg-white text-[var(--main-color)] transition hover:bg-[var(--primary-color)] hover:border-[var(--primary-color)] hover:text-white md:flex">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button data-next aria-label="Вперёд" class="hidden h-11 w-11 items-center justify-center rounded-full border border-[var(--border-color)] bg-white text-[var(--main-color)] transition hover:bg-[var(--primary-color)] hover:border-[var(--primary-color)] hover:text-white md:flex">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <a class="btn btn-primary" href="#contacts">Получить консультацию</a>
+      </div>
     </div>
 
-    <div data-drag-scroll class="mt-10 flex gap-5 overflow-x-auto pb-4 select-none">
+    <div data-drag-scroll class="popular-slider mt-10 flex gap-5 overflow-x-auto pb-2 select-none">
       {
         popularModels.map((model) => (
-          <article class="min-w-[310px] overflow-hidden rounded-[1.4rem] bg-white md:min-w-[390px]">
+          <article class="popular-card min-w-[300px] overflow-hidden rounded-[1.4rem] bg-white md:min-w-[370px]">
             <div class="aspect-[1.18] overflow-hidden bg-[#e9e9e9]">
-              <img class="size-full object-cover" src={model.image} alt={`${model.type} ${model.title}`} loading="lazy" />
+              <img class="popular-img size-full object-cover transition-transform duration-500" src={model.image} alt={`${model.type} ${model.title}`} loading="lazy" />
             </div>
             <div class="p-5">
               <p class="text-sm font-bold text-[var(--muted-color)]">{model.type}</p>
@@ -32,42 +40,144 @@ import { popularModels } from "../data/site";
         ))
       }
     </div>
+
+    <div data-dots class="mt-5 flex justify-center gap-2 md:hidden"></div>
   </div>
 </section>
 
+<style>
+  .popular-slider {
+    cursor: grab;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .popular-slider::-webkit-scrollbar { display: none; }
+  .popular-slider.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+
+  .popular-card { scroll-snap-align: start; }
+  .popular-card:hover .popular-img { transform: scale(1.04); }
+
+  [data-dots] .dot {
+    width: 6px; height: 6px;
+    border-radius: 9999px;
+    background: var(--border-color);
+    transition: width 0.25s, background 0.25s;
+  }
+  [data-dots] .dot.active {
+    width: 20px;
+    background: var(--primary-color);
+  }
+</style>
+
 <script>
   const slider = document.querySelector('[data-drag-scroll]') as HTMLElement;
-  if (slider) {
-    let isDown = false;
-    let startX = 0;
-    let scrollLeft = 0;
-    let moved = false;
+  const prevBtn = document.querySelector('[data-prev]') as HTMLButtonElement;
+  const nextBtn = document.querySelector('[data-next]') as HTMLButtonElement;
+  const dotsContainer = document.querySelector('[data-dots]') as HTMLElement;
 
-    slider.addEventListener('mousedown', (e) => {
-      if (e.button !== 0) return;
-      isDown = true;
-      moved = false;
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-      slider.style.cursor = 'grabbing';
+  if (!slider) throw new Error('slider not found');
+
+  const cards = Array.from(slider.querySelectorAll('.popular-card')) as HTMLElement[];
+  const cardGap = 20;
+
+  // --- dots ---
+  cards.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dotsContainer.appendChild(dot);
+  });
+
+  function updateDots() {
+    const dots = dotsContainer.querySelectorAll('.dot');
+    let closestIdx = 0;
+    let minDist = Infinity;
+    cards.forEach((card, i) => {
+      const dist = Math.abs(card.offsetLeft - slider.scrollLeft);
+      if (dist < minDist) { minDist = dist; closestIdx = i; }
     });
-
-    document.addEventListener('mouseup', (e) => {
-      if (e.button !== 0) return;
-      isDown = false;
-      slider.style.cursor = '';
-    });
-
-    slider.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      moved = true;
-      const x = e.pageX - slider.offsetLeft;
-      slider.scrollLeft = scrollLeft - (x - startX) * 1.2;
-    });
-
-    slider.addEventListener('click', (e) => {
-      if (moved) e.preventDefault();
-    }, true);
+    dots.forEach((d, i) => d.classList.toggle('active', i === closestIdx));
   }
+
+  slider.addEventListener('scroll', updateDots, { passive: true });
+
+  // --- arrow buttons ---
+  function scrollByCard(dir: number) {
+    const cardW = (cards[0]?.offsetWidth ?? 370) + cardGap;
+    slider.scrollBy({ left: dir * cardW, behavior: 'smooth' });
+  }
+  prevBtn?.addEventListener('click', () => scrollByCard(-1));
+  nextBtn?.addEventListener('click', () => scrollByCard(1));
+
+  // --- drag scroll with momentum ---
+  let isDown = false;
+  let startX = 0;
+  let scrollLeft = 0;
+  let moved = false;
+  let velX = 0;
+  let lastX = 0;
+  let lastT = 0;
+  let rafId = 0;
+
+  slider.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    cancelAnimationFrame(rafId);
+    isDown = true;
+    moved = false;
+    velX = 0;
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+    lastX = e.pageX;
+    lastT = Date.now();
+    slider.classList.add('is-dragging');
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!isDown) return;
+    isDown = false;
+    slider.classList.remove('is-dragging');
+
+    // momentum
+    let v = velX;
+    function glide() {
+      if (Math.abs(v) < 0.5) return;
+      slider.scrollLeft -= v;
+      v *= 0.92;
+      rafId = requestAnimationFrame(glide);
+    }
+    glide();
+  });
+
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    moved = true;
+    const x = e.pageX - slider.offsetLeft;
+    slider.scrollLeft = scrollLeft - (x - startX);
+
+    const now = Date.now();
+    const dt = now - lastT || 1;
+    velX = (lastX - e.pageX) / dt * 16;
+    lastX = e.pageX;
+    lastT = now;
+  });
+
+  slider.addEventListener('click', (e) => {
+    if (moved) e.preventDefault();
+  }, true);
+
+  // --- touch ---
+  let touchStartX = 0;
+  let touchScrollLeft = 0;
+
+  slider.addEventListener('touchstart', (e) => {
+    cancelAnimationFrame(rafId);
+    touchStartX = e.touches[0].pageX;
+    touchScrollLeft = slider.scrollLeft;
+  }, { passive: true });
+
+  slider.addEventListener('touchmove', (e) => {
+    const dx = touchStartX - e.touches[0].pageX;
+    slider.scrollLeft = touchScrollLeft + dx;
+  }, { passive: true });
 </script>
