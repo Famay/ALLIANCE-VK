@@ -57,11 +57,6 @@ export const services = [
     image: "/furniture/kitchen/kitchen-010.webp",
   },
   {
-    title: "Шкафы и гардеробные",
-    text: "Встроенные шкафы, купе и гардеробные комнаты точно по вашим размерам и потребностям.",
-    image: "/furniture/wardrobe/wardrobe-010.webp",
-  },
-  {
     title: "Прихожие",
     text: "Функциональные прихожие с системами хранения, зеркалами и обувными полками.",
     image: "/furniture/hallway/hallway-012.webp",
